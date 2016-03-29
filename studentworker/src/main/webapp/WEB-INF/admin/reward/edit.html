@@ -1,0 +1,154 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>设置奖惩</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">奖惩设置</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        	<input type="hidden" id="id" name="id" value="${rd.id!''}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">奖惩名称</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="name" name="name" placeholder="请输入奖惩名称，必填项！" value="${rd.name!''}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="type" class="am-u-sm-3 am-form-label">奖惩类型</label>
+            <div class="am-u-sm-9">
+              <select id="type" name="type">
+              <option value="0" selected="selected">请选择奖惩类型</option>
+              <option value="1" <#if (rd.type!0)==1>selected="selected"</#if> >奖励</option>
+              <option value="2" <#if (rd.type!0)==2>selected="selected"</#if> >惩罚</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="class" class="am-u-sm-3 am-form-label">奖惩级别</label>
+            <div class="am-u-sm-9">
+              <select id="class" name="class">
+              <option value="0" selected="selected">请选择符合实际的选项</option>
+            </select>
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="condition" class="am-u-sm-3 am-form-label">奖惩条件</label>
+            <div class="am-u-sm-9">
+              <textarea class="" rows="5" name="condition" id="condition" placeholder="输入奖惩条件">${rd.condition!''}</textarea>
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="remark" class="am-u-sm-3 am-form-label">备注</label>
+            <div class="am-u-sm-9">
+              <textarea class="" rows="3" name="remark" id="remark" placeholder="备注">${rd.remark!''}</textarea>
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="save()">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+var edit_type = ${rd.type!0};
+var edit_rwd_class = ${rd.rwd_class!0};
+var edit_punish_class = ${rd.punish_class!0};
+$(function(){
+	$("#myform")[0].reset();
+	$('#type').change(function(){
+		buildClassSelect();
+	});
+	if(edit_type>0) buildClassSelect();
+})
+
+function buildClassSelect(){
+	var typeVal = $("#type").val();
+	var html = "";
+	if(typeVal == 1){
+		$("#class").empty();
+		html += "<option value='0' selected='selected'>请选择符合实际的选项</option>";
+		html += "<option value='1'>校级</option>";
+		html += "<option value='2'>区级</option>";
+		html += "<option value='3'>市级</option>";
+		html += "<option value='4'>国家级</option>";
+		$('#class').append(html).val(edit_rwd_class);
+	}else if(typeVal == 2){
+		$("#class").empty();
+		html += "<option value='0' selected='selected'>请选择符合实际的选项</option>";
+		html += "<option value='1'>警告</option>";
+		html += "<option value='2'>严重警告</option>";
+		html += "<option value='3'>留校察看</option>";
+		html += "<option value='4'>开除学籍</option>";
+		$('#class').append(html).val(edit_punish_class);
+	}
+}
+
+function save(){
+	if(!check()) return false;
+	$.ajax({
+		   type: "POST",
+		   url:"edit?op=update",
+		   data:$('#myform').serialize(),// 要提交的表单
+		   success: function(rtn) {
+			   alert(rtn.msg);
+			   window.history.back();
+			},
+		   error: function(error){alert(error);}
+		});
+}
+
+function check(){
+	var name = $('#name').val();
+	var type = $('#type').val();
+	var _class = $('#class').val();
+	if(!name&&name.trim()==""){
+		alert("请填写奖惩名称!");
+		return false;
+	}
+	if(name.length>20||name.length<1){
+		alert("奖惩名称的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	if(type==0){
+		alert("请选择奖惩类型！");
+		return false;
+	}
+	if(_class==0){
+		alert("请选择奖惩级别！");
+		return false;
+	}
+	return true;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<#list rows as row>
+   	<tr id="${row.id!0}" pId="${row.parent_id!0}" hasChild='${(row.level!= 2) ? string("true","false")}'>
+		<td>
+			<#if (row.level!0) == 1>
+				<img alt="" src="../img/diy/1_open.png">
+			<#else>
+				<img alt="" src="../img/diy/2.png">
+			</#if>
+			<span controller='true'>${row.name}</span>
+		</td>
+		<td>
+			<#if (row.type!0)==1>按钮</#if>
+			<#if (row.type!0)==2>数据请求</#if>
+			<#if (row.type!0)==3>菜单</#if>
+		</td>
+		<td>
+			<#if (row.level!0)==1>一级功能点</#if>
+			<#if (row.level!0)==2>二级功能点</#if>
+		</td>
+		<td>${row.mark!''}</td>
+		<td>${row.url}</td>
+		<td>
+			<#if (row.level!0) != 0>
+				<div class="am-btn-toolbar">
+	               <div class="am-btn-group am-btn-group-xs">
+	                 <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="edit('${row.id}');return false;"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+	                 <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="del('${row.id}');return false;"><span class="am-icon-trash-o"></span> 删除</button>
+	               </div>
+	             </div>
+			</#if>
+		</td>
+	</tr>
+</#list>

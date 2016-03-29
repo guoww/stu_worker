@@ -1,0 +1,106 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>审批</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">审批</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        <input type="hidden" id="id" name="id" value="${rd.id!''}">
+        <input type="hidden" id="apply_id" name="apply_id" value="${rd.apply_id!apply_id}">
+        <input type="hidden" id="apply_type" name="apply_type" value="${rd.apply_type!apply_type.id}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">审批人工号</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_no" name="stu_no" readonly placeholder="请输入审批人工号，必填项！" value="${rd.stu_no!teacher.teacher_no}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">审批人姓名</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_name" name="stu_name" readonly placeholder="请输入审批人姓名，必填项！" value="${rd.stu_name!teacher.name}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">审批类型</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_name" name="stu_name" readonly value="${rd.apply_type_name!apply_type.name}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">审批结果</label>
+            <div class="am-u-sm-9">
+              <select name="is_agree" id="is_agree">
+      			<option value="0">请选择审批结果</option>
+      			<option value="1">同意</option>
+      			<option value="2">不同意</option>
+          	  </select>
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="reason" class="am-u-sm-3 am-form-label">审批意见</label>
+            <div class="am-u-sm-9">
+             <textarea rows="4" cols="4" id="advance" name="advance" placeholder="请输入审批意见">${rd.advance!''}</textarea>
+            </div>
+          </div>
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="save()">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#myform")[0].reset();
+})
+
+function toList(){
+	window.location.href = "/studentworker/approval/list";
+}
+
+function save(){
+	if(!check()) return false;
+	$.ajax({
+		   type: "POST",
+		   url:"edit?op=update",
+		   data:$('#myform').serialize(),// 要提交的表单
+		   success: function(rtn) {
+			   alert(rtn.msg);
+			   toList();
+		   },
+		   error: function(error){alert(error);}
+		});
+}
+
+function check(){
+	
+	return true;
+}
+</script>
+</body>
+</html>

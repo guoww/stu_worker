@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.studentworker.com</groupId>
+  <artifactId>studentworker</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <dependencies>
+	<dependency>
+		<groupId>com.jfinal</groupId>
+		<artifactId>jfinal</artifactId>
+		<version>2.2</version>
+	</dependency>
+	<!-- <dependency>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-server</artifactId>
+		<version>9.3.0.M2</version>
+	</dependency>  --> 
+	<!-- <dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-core</artifactId>
+		<version>1.2.4</version>
+	</dependency>  
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-web</artifactId>
+		<version>1.2.4</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-ehcache</artifactId>
+		<version>1.2.4</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-all</artifactId>
+		<version>1.2.4</version>
+	</dependency>
+	<dependency>
+		<groupId>net.sf.ehcache</groupId>
+		<artifactId>ehcache</artifactId>
+		<version>2.10.1</version>
+	</dependency> -->
+	<dependency>
+	     <groupId>javax.servlet</groupId>
+	     <artifactId>servlet-api</artifactId>
+	     <version>2.5</version>
+	     <scope>provided</scope>
+	   </dependency>
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.6</version>
+	</dependency>
+	<dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>1.10</version>
+	</dependency>
+	<dependency>
+		<groupId>c3p0</groupId>
+		<artifactId>c3p0</artifactId>
+		<version>0.9.1.2</version>
+	</dependency> 
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.38</version>
+	</dependency>
+	<dependency>
+		<groupId>org.freemarker</groupId>
+		<artifactId>freemarker</artifactId>
+		<version>2.3.23</version>
+	</dependency>
+	<dependency>
+		<groupId>net.coobird</groupId>
+		<artifactId>thumbnailator</artifactId>
+		<version>0.4.8</version>
+	</dependency>
+  </dependencies>
+  <repositories>  
+    <repository>    
+       <id>oschinaRepository</id>    
+       <name>local private nexus</name>    
+       <url>http://maven.oschina.net/content/groups/public/</url>    
+       <releases>    
+           <enabled>true</enabled>    
+       </releases>    
+        <snapshots>    
+            <enabled>true</enabled>    
+        </snapshots>    
+    </repository>    
+</repositories>
+</project>

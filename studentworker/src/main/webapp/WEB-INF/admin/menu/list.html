@@ -1,0 +1,141 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>菜单管理列表</title>
+  <meta name="keywords" content="table">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <!-- content start -->
+  <div class="admin-content">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">菜单管理列表</strong></div>
+    </div>
+
+    <div class="am-g">
+      <div class="am-u-sm-12 am-u-md-6">
+        <div class="am-btn-toolbar">
+          <div class="am-btn-group am-btn-group-xs">
+            <button type="button" class="am-btn am-btn-default" onclick="add()"><span class="am-icon-plus"></span> 新增</button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="am-u-sm-12 am-u-md-3">
+        <div class="am-form-group">
+          <select data-am-selected="{btnSize: 'sm'}">
+            <option value="0">所有类别</option>
+          </select>
+        </div>
+      </div> 
+      <div class="am-u-sm-12 am-u-md-3">
+        <div class="am-input-group am-input-group-sm">
+          <input type="text" class="am-form-field">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button">搜索</button>
+          </span>
+        </div>
+      </div>
+    </div>
+	-->
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <div class="am-panel am-panel-default">
+		  <div class="am-panel-hd">
+		    <h3 class="am-panel-title">菜单列表</h3>
+		  </div>
+		  <div class="am-panel-bd">
+			  <table id="treeTable" style="width:100%">
+			  	<tr>
+			  		<td>名称</td>
+			  		<td>url</td>
+			  		<td>操作</td>
+			  	</tr>
+			  	<#list pager.list as row>
+			  		<tr id="${row.id}" pId="${row.parent_id}" hasChild='${(row.level!= 2) ? string("true","false")}'>
+					<td>
+						<img alt="" src="../img/diy/1_close.png">
+						<span controller='true'>${row.name!''}</span>
+					</td>
+					<td>${row.url!''}</td>
+					<td>
+						<div class="am-btn-toolbar">
+		                  <div class="am-btn-group am-btn-group-xs">
+		                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="edit('${row.id}');return false;"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+		                    <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="del('${row.id}');return false;"><span class="am-icon-trash-o"></span> 删除</button>
+		                  </div>
+		                </div>
+					</td>
+				</tr>
+			  	</#list>
+			  </table>
+		  </div>
+		  <div class="am-panel-footer"></div>
+		</div>
+      </div>
+
+    </div>
+  </div>
+  <!-- content end -->
+
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/amazeui.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../js/treeTable/script/treeTable/jquery.treeTable.js"></script>
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+var subUrl = "menu";
+
+$(function(){
+    var option = {
+        theme:'vsStyle',
+        expandLevel : 1,
+        beforeExpand : function($treeTable, id) {
+            //判断id是否已经有了孩子节点，如果有了就不再加载，这样就可以起到缓存的作用
+            if ($('.' + id, $treeTable).length) { 
+            	return; 
+            }
+            
+            //这里的html可以是ajax请求
+            $.post("/studentworker/menu/treeTable", { id: id }, function(data){
+            	console.log(data);
+            	if(data.indexOf("tr") != -1){
+            		$treeTable.addChilds(data);
+            	}
+            }, "text");
+            
+        },
+        onSelect : function($treeTable, id) {
+            window.console && console.log('onSelect:' + id);
+        }
+    };
+    
+    option.theme = 'default';
+    $('#treeTable').treeTable(option);
+});
+
+function add(){
+	window.location.href = "/studentworker/"+subUrl+"/edit?op=add";
+}
+function edit(id){
+	window.location.href = "/studentworker/"+subUrl+"/edit?op=edit&&id="+id;
+}
+function del(id){
+	if(confirm("确定删除该记录？")){
+		$.ajax({
+			url:"/studentworker/"+subUrl+"/del?id="+id,
+			method:"get",
+			success:function(rtn){
+				alert(rtn.msg);
+				location.reload();
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

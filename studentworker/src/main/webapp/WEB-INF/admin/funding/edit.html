@@ -1,0 +1,162 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>勤工助学编辑</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">勤工助学编辑</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        <input type="hidden" id="id" name="id" value="${rd.id!''}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">学生学号</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_no" name="stu_no" placeholder="请输入学生学号，必填项！" value="${rd.stu_no!''}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">学生姓名</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_name" name="stu_name" placeholder="请输入学生姓名，必填项！" value="${rd.stu_name!''}">
+            </div>
+          </div>
+
+		  <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">资助人/单位</label>
+             <div class="am-u-sm-9">
+              <input type="text" id="sponsor" name="sponsor" placeholder="请输入资助人/单位，必填项！" value="${rd.sponsor!''}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">资助资金</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="money" name="money" placeholder="请输入学生勤工职务，必填项！" value="${rd.money!''}">
+            </div>
+          </div>
+          
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">资金发放日期</label>
+            <div class="am-u-sm-9">
+              <input id="date" name="date" type="text" class="am-form-field"  value="${rd.date!''}"
+               placeholder="请输入资金发放日期，必填项" data-am-datepicker readonly required />
+            </div>
+          </div>
+		  <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">接受资助所属学年</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="year" name="year" placeholder="请输入接受资助所属学年，必填项！ 如：2015-2016" value="${rd.year!''}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="save()">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#myform")[0].reset();
+})
+
+function toList(){
+	window.location.href = "/studentworker/funding/list"
+}
+
+function save(){
+	if(!check()) return false;
+	$.ajax({
+		   type: "POST",
+		   url:"edit?op=update",
+		   data:$('#myform').serialize(),// 要提交的表单
+		   success: function(rtn) {
+			   alert(rtn.msg);
+			   toList();
+			},
+		   error: function(error){alert(error);}
+		});
+}
+
+function check(){
+	var stu_no = $('#stu_no').val();
+	var stu_name = $('#stu_name').val();
+	var sponsor = $('#sponsor').val();
+	var date = $('#date').val();
+	var money = $('#money').val();
+	var year = $('#year').val();
+	if(!stu_no&&stu_no.trim()==""){
+		alert("请填写学号!");
+		return false;
+	}
+	if(stu_no.length>20||stu_no.length<1){
+		alert("学号的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(!stu_name&&stu_name.trim()==""){
+		alert("请填写学生姓名!");
+		return false;
+	}
+	if(stu_name.length>20||stu_name.length<1){
+		alert("学生姓名的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(!sponsor&&sponsor.trim()==""){
+		alert("请填写工作单位!");
+		return false;
+	}
+	if(sponsor.length>50||sponsor.length<1){
+		alert("工作单位的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	
+	if(!money&&money.trim()==""){
+		alert("请填写资助金额!");
+		return false;
+	}
+	
+	if(!date&&date.trim()==""){
+		alert("选择资助资金发放日期!");
+		return false;
+	}
+	
+	
+	if(!year&&year.trim()==""){
+		alert("请填写勤工所属学年!");
+		return false;
+	}
+	if(year.length>20||year.length<1){
+		alert("勤工所属学年的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	return true;
+}
+</script>
+</body>
+</html>

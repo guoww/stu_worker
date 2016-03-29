@@ -1,0 +1,142 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>请假申请编辑</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">请假申请</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        <input type="hidden" id="id" name="id" value="${rd.id!''}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">申请人学号</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_no" name="stu_no" readonly placeholder="请输入申请人学号，必填项！" value="${rd.stu_no!student.stu_no}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">申请人姓名</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_name" name="stu_name" readonly placeholder="请输入申请人姓名，必填项！" value="${rd.stu_name!student.name}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">开始日期</label>
+            <div class="am-u-sm-9">
+	              <input id="begin_time" name="begin_time" type="text" class="am-form-field"  value="${rd.begin_time!''}"
+	               placeholder="请选择开始日期，必填项" data-am-datepicker readonly required />
+	               &nbsp;&nbsp;&nbsp;
+	               		第
+	               		<select name="begin_leason" id="begin_leason">
+	               			<option value="1">第一节课</option>
+	               			<option value="2">第二节课</option>
+	               			<option value="3">第三节课</option>
+	               			<option value="4">第四节课</option>
+	               			<option value="5">第五节课</option>
+	               			<option value="6">第六节课</option>
+	               			<option value="7">第七节课</option>
+	               			<option value="8">第八节课</option>
+	               			<option value="9">第九节课</option>
+	               			<option value="10">第十课</option>
+	               			<option value="11">第十一课</option>
+	               			<option value="12">第十二节课</option>
+	               		</select>
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">结束日期</label>
+            <div class="am-u-sm-9">
+	              <input id="end_time" name="end_time" type="text" class="am-form-field"  value="${rd.end_time!''}"
+	               placeholder="请选择结束日期，必填项" data-am-datepicker readonly required />
+	               &nbsp;&nbsp;&nbsp;
+	               		第
+	               		<select name="end_leason" id="end_leason">
+	               			<option value="1">第一节课</option>
+	               			<option value="2">第二节课</option>
+	               			<option value="3">第三节课</option>
+	               			<option value="4">第四节课</option>
+	               			<option value="5">第五节课</option>
+	               			<option value="6">第六节课</option>
+	               			<option value="7">第七节课</option>
+	               			<option value="8">第八节课</option>
+	               			<option value="9">第九节课</option>
+	               			<option value="10">第十课</option>
+	               			<option value="11">第十一课</option>
+	               			<option value="12">第十二节课</option>
+	               		</select>
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">申请时间</label>
+            <div class="am-u-sm-9">
+              <input id="apply_time" name="apply_time" type="text" class="am-form-field"  value="${rd.apply_time!''}"
+               placeholder="请选择申请时间，必填项" data-am-datepicker readonly required />
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="reason" class="am-u-sm-3 am-form-label">申请事由</label>
+            <div class="am-u-sm-9">
+             <textarea rows="4" cols="4"></textarea>
+              <input type="text" id="reason" name="reason" placeholder="请输入奖品名称，必填项！" value="${rd.reason!''}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="save()">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#myform")[0].reset();
+})
+
+function toList(){
+	window.location.href = "/studentworker/leave/list";
+}
+
+function save(){
+	if(!check()) return false;
+	$.ajax({
+		   type: "POST",
+		   url:"edit?op=update",
+		   data:$('#myform').serialize(),// 要提交的表单
+		   success: function(rtn) {
+			   alert(rtn.msg);
+			   toList();
+		   },
+		   error: function(error){alert(error);}
+		});
+}
+
+function check(){
+	
+	return true;
+}
+</script>
+</body>
+</html>

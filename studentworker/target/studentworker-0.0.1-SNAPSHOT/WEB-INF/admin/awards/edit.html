@@ -1,0 +1,164 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>评奖评优信息编辑</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">评奖评优信息编辑</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        <input type="hidden" id="id" name="id" value="${rd.id!''}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">评奖评优名称</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="name" name="name" placeholder="请输入评奖评优名称，必填项！" value="${rd.name!''}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">等级</label>
+            <div class="am-u-sm-9">
+              <select id="level" name="level">
+              <option value="0" selected="selected">请选择评奖评优等级</option>
+              <option value="1" <#if (rd.level!0)==1>selected="selected"</#if> >A级</option>
+              <option value="2" <#if (rd.level!0)==2>selected="selected"</#if> >B级</option>
+              <option value="3" <#if (rd.level!0)==3>selected="selected"</#if> >C级</option>
+              <option value="4" <#if (rd.level!0)==4>selected="selected"</#if> >D级</option>
+              <option value="5" <#if (rd.level!0)==5>selected="selected"</#if> >E级</option>
+            </select>
+            </div>
+          </div>
+
+		  <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">金额</label>
+             <div class="am-u-sm-9">
+              <input type="text" id="money" name="money" placeholder="请输入奖项金额，必填项！" value="${rd.money!''}">
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">人数限制</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="number" name="number" placeholder="请输入人数，必填项！" value="${rd.number!''}">
+            </div>
+          </div>
+          
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">是否发布</label>
+            <div class="am-u-sm-9">
+              <div class="am-radio">
+			      <label>
+			        <input type="radio" name="is_publish" value="1" <#if (rd.is_publish!0)==1>checked</#if> >
+			        	是
+			      </label>
+			    </div>
+			
+			    <div class="am-radio">
+			      <label>
+			        <input type="radio" name="is_publish" value="2" <#if (rd.is_publish!0)==2>checked</#if>>
+			      	  否
+			      </label>
+			   </div>
+            </div>
+          </div>
+          
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">时间</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="date" name="date" placeholder="请输入时间，必填项！" value="${rd.date!''}"class="am-form-field"
+               data-am-datepicker readonly required>
+            </div>
+          </div>
+          
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="save()">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#myform")[0].reset();
+})
+
+function toList(){
+	window.location.href = "/studentworker/awards/list"
+}
+
+function save(){
+	if(!check()) return false;
+	$.ajax({
+		   type: "POST",
+		   url:"edit?op=update",
+		   data:$('#myform').serialize(),// 要提交的表单
+		   success: function(rtn) {
+			   alert(rtn.msg);
+			   toList();
+			},
+		   error: function(error){alert(error);}
+		});
+}
+
+function check(){
+	var name = $('#name').val();
+	var level = $('#level').val();
+	var number = $('#number').val();
+	var money = $('#money').val();
+	//var is_publish = $('#is_publish').val();
+	var date = $('#date').val();
+	if(!name&&name.trim()==""){
+		alert("请填写评奖评优名称!");
+		return false;
+	}
+	if(name.length>20||name.length<1){
+		alert("评奖评优名称字符的长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(level<1){
+		alert("请选择评奖评优等级!");
+		return false;
+	}
+	
+	if(!number&&number.trim()==""){
+		alert("请填写人数!");
+		return false;
+	}
+	
+	if(!money&&money.trim()==""){
+		alert("请填写奖项金额!");
+		return false;
+	}
+	
+	if(!date&&date.trim()==""){
+		alert("请填写时间字段!");
+		return false;
+	}
+	return true;
+}
+</script>
+</body>
+</html>

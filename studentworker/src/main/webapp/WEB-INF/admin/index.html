@@ -1,0 +1,138 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>南国商学院学工管理系统</title>
+  <meta name="description" content="这是一个 index 页面">
+  <meta name="keywords" content="index">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<header class="am-topbar admin-header">
+  <div class="am-topbar-brand">
+    <strong>南国商学院</strong> <small>学工管理系统</small>
+  </div>
+
+  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+  </div>
+</header>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+    <div class="am-offcanvas-bar admin-offcanvas-bar">
+      <ul class="am-list admin-sidebar-list" id="collapase-nav-1">
+  <li class="am-panel">
+    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#user-nav'}">
+        <i class="am-icon-users am-margin-left-sm"></i> 基础数据 <i class="am-icon-angle-right am-fr am-margin-right"></i>
+    </a>
+    <ul class="am-list am-collapse admin-sidebar-sub" id="user-nav">
+    	<li><a href="javascript:;" onclick="selectMenu('student/list')"><span class="am-icon-male"></span> 学生基础信息</a></li>
+    	<li><a href="javascript:;" onclick="selectMenu('teacher/list')"><span class="am-icon-male"></span> 教工信息</a></li>
+    </ul>
+  </li>
+
+  <li class="am-panel">
+    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#company-nav'}">
+        <i class="am-icon-table am-margin-left-sm"></i> 学生事务管理  <i class="am-icon-angle-right am-fr am-margin-right"></i>
+    </a>
+    <ul class="am-list am-collapse admin-sidebar-sub" id="company-nav">
+        <li><a href="javascript:;" onclick="selectMenu('reward/list')" class="am-cf"><span class="am-icon-cog"></span>  奖惩设置</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('reward/regist_list')"><span class="am-icon-book"></span>  奖惩登记</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('insurance/list')"><span class="am-icon-star"></span>  保险设置</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('insurance/payment_list')"><span class="am-icon-star"></span>  保险理赔</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('insurance/regist_list')"><span class="am-icon-star"></span>  保险登记</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('arrears/list')"><span class="am-icon-credit-card-alt"></span>  欠费清理</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('leave/list')"><span class="am-icon-credit-card-alt"></span>  请假申请</a></li>
+    </ul>
+  </li>
+
+  <li class="am-panel">
+    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#role-nav'}">
+        <i class="am-icon-table am-margin-left-sm"></i> 勤工助学管理 <i class="am-icon-angle-right am-fr am-margin-right"></i>
+    </a>
+    <ul class="am-list am-collapse admin-sidebar-sub" id="role-nav">
+        <li><a href="javascript:;" class="am-cf" onclick="selectMenu('poor/list')"><span class="am-icon-cog"></span>  贫困生档案</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('workstudy/list')"><span class="am-icon-cog"></span>  勤工助学管理</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('funding/list')"><span class="am-icon-book"></span>  学生资助管理</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('loan/list')"><span class="am-icon-credit-card-alt"></span>  学生贷款管理</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('bank/list')"><span class="am-icon-star"></span>  银行卡信息更新</a></li>
+    </ul>
+  </li>
+  
+    <li class="am-panel">
+    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#awards-nav'}">
+        <i class="am-icon-table am-margin-left-sm"></i> 评奖评优管理<i class="am-icon-angle-right am-fr am-margin-right"></i>
+    </a>
+    <ul class="am-list am-collapse admin-sidebar-sub" id="awards-nav">
+            <li><a href="javascript:;" onclick="selectMenu('awards/list')" class="am-cf"><span class="am-icon-cog"></span>  评奖评优设置</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('awardsapply/list')"><span class="am-icon-credit-card-alt"></span>  评奖评优申请</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('glory/list')"><span class="am-icon-cog"></span>  班级荣誉项目设置</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('gloryregist/list')"><span class="am-icon-book"></span>  班级荣誉登记</a></li>
+            <li><a href="javascript:;" onclick="selectMenu('grant/list')"><span class="am-icon-star"></span>  评奖评优发放管理</a></li>
+    </ul>
+  </li>
+  
+  <li class="am-panel">
+    <a data-am-collapse="{parent: '#collapase-nav-1', target: '#purview-nav'}">
+        <i class="am-icon-table am-margin-left-sm"></i> 权限管理<i class="am-icon-angle-right am-fr am-margin-right"></i>
+    </a>
+    <ul class="am-list am-collapse admin-sidebar-sub" id="purview-nav">
+   			<li><a href="javascript:;" onclick="selectMenu('module/list')" class="am-cf"><span class="am-icon-cog"></span>  功能管理</a></li>
+           <li><a href="javascript:;" onclick="selectMenu('menu/list')" class="am-cf"><span class="am-icon-cog"></span>  菜单管理</a></li>
+           <li><a href="javascript:;" onclick="selectMenu('role/list')"><span class="am-icon-credit-card-alt"></span>  角色管理</a></li>
+           <li><a href="javascript:;" onclick="selectMenu('resource/list')"><span class="am-icon-cog"></span>  资源管理</a></li>
+    </ul>
+  </li>
+</ul>
+    </div>
+  </div>
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+		<iframe  id="frm" src="table"  
+				 width='100%'   onload="iFrameHeight()"></iframe>
+  </div>
+  <!-- content end -->
+
+</div>
+
+<a href="#" class="am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}">
+  <span class="am-icon-btn am-icon-th-list"></span>
+</a>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2016 版权归广东外语外贸大学南国商学院所有</p>
+</footer>
+
+<script src="assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script type="text/javascript">
+function selectMenu(href){
+	document.getElementById("frm").src=href;
+}
+ function iFrameHeight() {   
+	document.getElementById("frm").height=window.screen.height*0.75+'px';
+}    
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>欠费编辑</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">欠费编辑</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        <input type="hidden" id="id" name="id" value="${rd.id!''}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">学生学号</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_no" name="stu_no" placeholder="请输入学生学号，必填项！" value="${rd.stu_no!''}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">学生姓名</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="stu_name" name="stu_name" placeholder="请输入学生姓名，必填项！" value="${rd.stu_name!''}">
+            </div>
+          </div>
+
+		  <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">贫困生推荐级别</label>
+             <div class="am-u-sm-9">
+              <select id="type" name="type">
+              <option value="0" selected="selected">请选择贫困生推荐级别</option>
+              <option value="1" <#if (rd.poor_level!0)==1>selected="selected"</#if> >经济一般困难</option>
+              <option value="2" <#if (rd.poor_level!0)==2>selected="selected"</#if> >经济困难</option>
+              <option value="3" <#if (rd.poor_level!0)==2>selected="selected"</#if> >经济特殊困难</option>
+              <option value="4" <#if (rd.poor_level!0)==2>selected="selected"</#if> >经济不困难</option>
+            </select>
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">家庭年收入</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="year_income" name="year_income" placeholder="请输入家庭年收入，必填项！" value="${rd.year_income!''}">
+            </div>
+          </div>
+          
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">家庭人均月收入</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="mon_income" name="mon_income" placeholder="请输入家庭人均月收入，必填项！" value="${rd.mon_income!''}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="save()">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#myform")[0].reset();
+})
+
+function toList(){
+	window.location.href = "/studentworker/poor/list"
+}
+
+function save(){
+	if(!check()) return false;
+	$.ajax({
+		   type: "POST",
+		   url:"edit?op=save",
+		   data:$('#myform').serialize(),// 要提交的表单
+		   success: function(rtn) {
+			   alert(rtn.msg);
+			   toList();
+			},
+		   error: function(error){alert(error);}
+		});
+}
+
+function check(){
+	var stu_no = $('#stu_no').val();
+	var stu_name = $('#stu_name').val();
+	var poor_level = $('#poor_level').val();
+	var year_income = $('#year_income').val();
+	var mon_income = $('#mon_income').val();
+	if(!stu_no&&stu_no.trim()==""){
+		alert("请填写学号!");
+		return false;
+	}
+	if(stu_no.length>20||stu_no.length<1){
+		alert("学号的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(!stu_name&&stu_name.trim()==""){
+		alert("请填写学生姓名!");
+		return false;
+	}
+	if(stu_name.length>20||stu_name.length<1){
+		alert("学生姓名的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(poor_level<1){
+		alert("请选择贫困推荐等级!");
+		return false;
+	}
+	
+	
+	if(!mon_income&&mon_income.trim()==""){
+		alert("请填写家庭人均月收入!");
+		return false;
+	}
+	return true;
+}
+</script>
+</body>
+</html>

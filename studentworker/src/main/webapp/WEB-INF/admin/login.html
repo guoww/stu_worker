@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>登陆页面</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="assets/css/amazeui.min.css"/>
+  <style>
+    .header {
+      text-align: center;
+    }
+    .header h1 {
+      font-size: 200%;
+      color: #333;
+      margin-top: 30px;
+    }
+    .header p {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <div class="am-g">
+    <h1>南国商学院</h1>
+    <!-- <p>Integrated Development Environment<br/>代码编辑，代码生成，界面设计，调试，编译</p> -->
+  </div>
+  <hr />
+</div>
+<div class="am-g">
+  <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
+    <h3>登录</h3>
+    <hr>
+    <!-- <div class="am-btn-group">
+      <a href="#" class="am-btn am-btn-secondary am-btn-sm"><i class="am-icon-github am-icon-sm"></i> Github</a>
+      <a href="#" class="am-btn am-btn-success am-btn-sm"><i class="am-icon-google-plus-square am-icon-sm"></i> Google+</a>
+      <a href="#" class="am-btn am-btn-primary am-btn-sm"><i class="am-icon-stack-overflow am-icon-sm"></i> stackOverflow</a>
+    </div> -->
+    <br>
+    <br>
+
+    <form id="myform" method="post" class="am-form">
+      <label for="username">学号/教工号:</label>
+      <input type="text" name="username" id="username" name="username" value="">
+      <br>
+      <label for="password">密码:</label>
+      <input type="password" name="password" id="password" value="">
+      <br>
+      <label for="password">用户类型:</label>
+      <div class="am-form-group">
+	      <label class="am-radio-inline">
+	        <input type="radio" id="type"  value="1" name="type">学生
+	      </label>
+	      <label class="am-radio-inline">
+	        <input type="radio" name="type" value="2"> 教工
+	      </label>
+      </div>
+      <br />
+      <div class="am-cf">
+        <input type="button" onclick="login()" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
+        <!-- <input type="submit" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr"> -->
+      </div>
+    </form>
+    <hr>
+    <p>© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+  </div>
+</div>
+<script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript">
+function toIndex(){
+	window.location.href = "/studentworker/index";
+}
+ function login(){
+	 console.log($('#myform').serialize());
+	 if(!check()) return false;
+		$.ajax({
+			   type: "POST",
+			   url:"login",
+			   data:$('#myform').serialize(),// 要提交的表单
+			   success: function(rtn) {
+				   console.log(rtn);
+				   alert(rtn.msg);
+				   toIndex();
+			   },
+			   error: function(error){alert(error);}
+			});
+ }
+ 
+ function check(){
+	 var username= $("#username").val();
+	 var password = $("#password").val();
+	 var type = $('input:radio[name=type]:checked').val();
+	 if(!username||username==""){
+		 alert("请填写用户名!");
+		 return false;
+	 }
+	 if(username.length>20){
+		 alert("用户名长度过长!");
+	 }
+	 if(!password||password==""){
+		 alert("请填写密码!");
+		 return false;
+	 }
+	 if(username.length>16){
+		 alert("密码长度过长!");
+	 }
+	 if(!type||type==0){
+		 alert("请选择用户类型!");
+		 return false;
+	 }
+	 return true;
+ }
+</script>
+</body>
+</html>

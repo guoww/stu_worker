@@ -1,0 +1,123 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>保险理赔列表</title>
+  <meta name="keywords" content="table">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+  <!-- content start -->
+  <div class="admin-content">
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">保险理赔列表</strong></div>
+    </div>
+
+    <div class="am-g">
+      <div class="am-u-sm-12 am-u-md-6">
+        <div class="am-btn-toolbar">
+          <div class="am-btn-group am-btn-group-xs">
+            <button type="button" class="am-btn am-btn-default" onclick="add();return false;"><span class="am-icon-plus"></span> 新增</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="am-g">
+      <div class="am-u-sm-12">
+        <form class="am-form">
+          <table class="am-table am-table-striped am-table-hover table-main">
+            <thead>
+              <tr>
+                <th class="table-check"><input type="checkbox" /></th>
+                <th >序号</th>
+                <th class="table-author am-hide-sm-only">学生号</th>
+                <th class="table-title">姓名</th>
+                <th class="table-type">保险</th>
+                <th class="table-type">已理赔</th>
+                <th class="table-type">理赔金额</th>
+                <th class="table-type">理赔时间</th>
+                <th class="table-set">操作</th>
+              </tr>
+          </thead>
+          <tbody>
+          <#list pager.list as row>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>${row.id!''}</td>
+              <td class="am-hide-sm-only">${row.stu_no!''}</td>
+              <td><a href="#">${row.stu_name!''}</a></td>
+              <td>${row.name!''}</td>
+              <td class="am-hide-sm-only">
+                <#if (row.is_pay!0)==1>已理赔</#if>
+                <#if (row.is_pay!0)==2>未理赔</#if>
+              </td>
+              <td>${row.money!''}</td>
+              <td>${row.pay_time!''}</td>
+              <td>
+                <div class="am-btn-toolbar">
+                  <div class="am-btn-group am-btn-group-xs">
+                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="edit('${row.id}');return false;"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                    <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" onclick="del('${row.id}');return false;"><span class="am-icon-trash-o"></span> 删除</button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            </#list>
+          </tbody>
+        </table>
+          <div class="am-cf">
+  	共 ${pager.totalRow} 条记录
+  <div class="am-fr">
+    <ul class="am-pagination">
+      <li class="am-disabled"><a href="#">«</a></li>
+      <#list 1..(pager.totalPage) as i >
+      	<li <#if i==pager.pageNumber>class="am-active"</#if> ><a href="#">${i}</a></li>
+      </#list>
+    </ul>
+  </div>
+</div>
+          <hr />
+        </form>
+      </div>
+
+    </div>
+  </div>
+  <!-- content end -->
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+function add(){
+	window.location.href = "/studentworker/insurance/payment_edit?op=add";
+}
+function edit(id){
+	window.location.href = "/studentworker/insurance/payment_edit?op=edit&&id="+id;
+}
+function del(id){
+	
+	if(confirm("确定删除该记录?")){
+		$.ajax({
+			url:'/studentworker/insurance/payment_del?id='+id,
+			method:"get",
+			success:function(rtn){
+				alert(rtn.msg);
+				location.reload();
+			}
+		});
+	}
+}
+</script>
+</body>
+</html>

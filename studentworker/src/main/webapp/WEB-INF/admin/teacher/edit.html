@@ -1,0 +1,169 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>教工信息编辑</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">教工信息编辑</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        <input type="hidden" id="id" name="id" value="${rd.id!''}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">教工工号</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="teacher_no" name="teacher_no" placeholder="请输入教工工号，必填项！" value="${rd.teacher_no!''}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">教工姓名</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="name" name="name" placeholder="教工姓名，必填项！" value="${rd.name!''}">
+            </div>
+          </div>
+
+		  <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">性别</label>
+             <div class="am-u-sm-9">
+              <select id="type" name="type">
+              <option value="0" selected="selected">请选择教工性别</option>
+              <option value="1" <#if (rd.poor_level!0)==1>selected="selected"</#if> >男</option>
+              <option value="2" <#if (rd.poor_level!0)==2>selected="selected"</#if> >女</option>
+            </select>
+            </div>
+          </div>
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">出生日期</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="birthday" name="birthday" placeholder="请输入出生日期，必填项！" value="${rd.birthday!''}">
+            </div>
+          </div>
+          
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">职称</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="title" name="title" placeholder="请输入教工职称，必填项！" value="${rd.title!''}">
+            </div>
+          </div>
+          
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">部门</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="department" name="department" placeholder="请输入教工职称，必填项！" value="${rd.department!''}">
+            </div>
+          </div>
+
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="save()">保存修改</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#myform")[0].reset();
+})
+
+function toList(){
+	window.location.href = "/studentworker/teacher/list"
+}
+
+function save(){
+	if(!check()) return false;
+	$.ajax({
+		   type: "POST",
+		   url:"edit?op=update",
+		   data:$('#myform').serialize(),// 要提交的表单
+		   success: function(rtn) {
+			   alert(rtn.msg);
+			   toList();
+			},
+		   error: function(error){alert(error);}
+		});
+}
+
+function check(){
+	var teacher_no = $('#teacher_no').val();
+	var name = $('#name').val();
+	var sex = $('#sex').val();
+	var birthday = $('#birthday').val();
+	var title = $('#title').val();
+	var department = $('#department').val();
+	if(!teacher_no&&teacher_no.trim()==""){
+		alert("请填写教工工号!");
+		return false;
+	}
+	if(teacher_no.length>20||teacher_no.length<1){
+		alert("教工工号的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(!name&&name.trim()==""){
+		alert("请填写教工姓名!");
+		return false;
+	}
+	if(name.length>20||name.length<1){
+		alert("教工姓名的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(sex<1){
+		alert("请选择贫困推荐等级!");
+		return false;
+	}
+	
+	if(!birthday&&birthday.trim()==""){
+		alert("请填写教工出生日期，如：1983-12");
+		return false;
+	}
+	if(birthday.length>20||birthday.length<1){
+		alert("出生日期的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(!title&&title.trim()==""){
+		alert("请填写教工职称!");
+		return false;
+	}
+	if(title.length>20||title.length<1){
+		alert("教工职称的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	
+	if(!department&&department.trim()==""){
+		alert("请填写教工部门!");
+		return false;
+	}
+	if(department.length>20||department.length<1){
+		alert("教工部门的字符长度过长或过短，请重新填写！");
+		return false;
+	}
+	return true;
+}
+</script>
+</body>
+</html>

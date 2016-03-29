@@ -1,0 +1,109 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>权限分配</title>
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+  <link rel="stylesheet" href="../assets/css/amazeui.min.css"/>
+  <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+
+    <div class="am-cf am-padding">
+      <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">权限分配</strong></div>
+    </div>
+
+    <hr/>
+
+    <div class="am-g">
+
+      <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+      </div>
+
+      <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+        <form id="myform" class="am-form am-form-horizontal">
+        <input type="hidden" id="role_id" name="role_id" value="${role.id!''}">
+          <div class="am-form-group">
+            <label for="name" class="am-u-sm-3 am-form-label">角色名称</label>
+            <div class="am-u-sm-9">
+              <input type="text" id="name" name="name" placeholder="请输入角色名称，必填项！" value="${role.name!''}" readonly>
+            </div>
+          </div>
+          <div class="am-panel am-panel-default">
+			  <div class="am-panel-hd">
+			    <h3 class="am-panel-title">面板标题</h3>
+			  </div>
+			  <table class="am-table">
+			    <tr>
+			    	<td>一级资源</td>
+			    	<td>二级级资源</td>
+			    </tr>
+			    <div class="am-form-group">
+				    <#list modules as module>
+				    	<tr>
+					    	<td>
+						    	<label class="am-checkbox-inline">
+						           <input type="checkbox" value="${module.id}" onclick="myCheck(this)" <#if (module.isHas!0)==1>checked="checked"</#if>> ${module.name}
+						        </label>
+						      </td>
+					    	<td>
+					    	<#if (module.sub?size>0)>
+					    		<#list module.sub as module2>
+					    			<label class="am-checkbox-inline">
+							           <input type="checkbox" value="${module2.id}" onclick="myCheck(this)" <#if (module2.isHas!0)==1>checked="checked"</#if>> ${module2.name}
+							        </label>
+					    		</#list>
+					    	</#if>	
+					    	</td>
+					    </tr>
+				    </#list>
+			    </div>
+			  </table>
+			</div>
+          <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+              <button type="button" class="am-btn am-btn-primary" onclick="back()">返回</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+<script src="../assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../assets/js/amazeui.min.js"></script>
+
+<script src="../assets/js/app.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#myform")[0].reset();
+})
+function myCheck(me){
+	var isChecked = $(me).prop("checked");
+	console.log(isChecked);
+	console.log($(me));
+	console.log($('#role_id').val());
+	var url;
+	if(isChecked){
+		url="/studentworker/role/setPermission?op=add";
+	}else{
+		url = "/studentworker/role/setPermission?op=del";
+	}
+	$.ajax({
+		url:url,
+		method:"post",
+		type:"json",
+		data:{"role_id":$('#role_id').val(),"module_id":$(me).val()}
+	});
+}
+function toList(){
+	window.location.href = "/studentworker/role/list"
+}
+
+function back(){
+	toList();
+}
+</script>
+</body>
+</html>
